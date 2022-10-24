@@ -114,6 +114,8 @@ public class ReplyMarkup {
             rowList.add(row2);
             rowList.add(row3);
             rowList.add(row4);
+            rowList.add(row5);
+            rowList.add(row6);
         }
         markup.setResizeKeyboard(true);
         markup.setKeyboard(rowList);
