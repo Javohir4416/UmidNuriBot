@@ -87,7 +87,7 @@ public class ReplyMarkup {
             rowList.add(row3);
             rowList.add(row4);
         }
-        if (user.getUserState().equals(UserStateNames.PERSONAL_DEVELOPMENT.name())) {
+        if (user.getUserState().equals(UserStateNames.FIND_JOB.name())) {
             KeyboardRow row2 = new KeyboardRow();
             KeyboardRow row3 = new KeyboardRow();
             KeyboardRow row4 = new KeyboardRow();
@@ -113,7 +113,7 @@ public class ReplyMarkup {
             rowList.add(row4);
             rowList.add(row5);
         }
-        if (user.getUserState().equals(UserStateNames.FIND_JOB.name())) {
+        if (user.getUserState().equals(UserStateNames.PERSONAL_DEVELOPMENT.name())) {
             KeyboardRow row2 = new KeyboardRow();
             KeyboardRow row3 = new KeyboardRow();
             KeyboardRow row4 = new KeyboardRow();
