@@ -151,4 +151,14 @@ public class UserService {
         sendMessage.setReplyMarkup(replyMarkup.markup(user));
         telegramFeign.sendMessageToUser(sendMessage);
     }
+
+    public void findJob(Update update) {
+        User user = getUserFromUpdate(update);
+        user.setUserState(UserStateNames.FIND_JOB.name());
+        SendMessage sendMessage=new SendMessage();
+        sendMessage.setChatId(user.getChatId());
+        sendMessage.setText("Ish topishga nima to’sqinlik qilyapti ");
+        sendMessage.setReplyMarkup(replyMarkup.markup(user));
+        telegramFeign.sendMessageToUser(sendMessage);
+    }
 }

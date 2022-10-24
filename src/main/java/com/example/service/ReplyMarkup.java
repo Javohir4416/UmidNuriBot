@@ -97,6 +97,32 @@ public class ReplyMarkup {
             KeyboardButton row3Button1 = new KeyboardButton();
             KeyboardButton row4Button1 = new KeyboardButton();
             KeyboardButton row5Button1 = new KeyboardButton();
+            row1Button1.setText("Rus tili");
+            row2Button1.setText("Ingliz tili");
+            row3Button1.setText("SMM");
+            row4Button1.setText("Boshqa sabablar");
+            row5Button1.setText("Bosh Menu");
+            row1.add(row1Button1);
+            row2.add(row2Button1);
+            row3.add(row3Button1);
+            row4.add(row4Button1);
+            row5.add(row5Button1);
+            rowList.add(row1);
+            rowList.add(row2);
+            rowList.add(row3);
+            rowList.add(row4);
+            rowList.add(row5);
+        }
+        if (user.getUserState().equals(UserStateNames.FIND_JOB.name())) {
+            KeyboardRow row2 = new KeyboardRow();
+            KeyboardRow row3 = new KeyboardRow();
+            KeyboardRow row4 = new KeyboardRow();
+            KeyboardRow row5 = new KeyboardRow();
+            KeyboardRow row6 = new KeyboardRow();
+            KeyboardButton row2Button1 = new KeyboardButton();
+            KeyboardButton row3Button1 = new KeyboardButton();
+            KeyboardButton row4Button1 = new KeyboardButton();
+            KeyboardButton row5Button1 = new KeyboardButton();
             KeyboardButton row6Button1 = new KeyboardButton();
             row1Button1.setText("Rus tili");
             row2Button1.setText("Ingliz tili");

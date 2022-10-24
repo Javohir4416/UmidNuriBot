@@ -8,5 +8,6 @@ public enum UserStateNames {
     QUESTION,
     OTHER,
     PERSONAL_DEVELOPMENT,
+    FIND_JOB,
      FINANCIAL;
 }

@@ -66,9 +66,14 @@ public class TelegramService {
                         case "Tashkiliy muammo":
                             userService.otherProblems(update);
                             break;
+
+
+                        case "Ish topish":
+                            userService.findJob(update);
+                            break;
+
                         case "Turar joy":
                         case "Kontrakt to’lovi":
-                        case "Ish topish":
                         case "Kafedra/dekanat o’qituvchilari bilan tushinmovchiliklar":
                         case "Huquqlar poymol qilinishi":
                         case "Rus tili":
@@ -77,6 +82,7 @@ public class TelegramService {
                         case "Sport to'garaklari":
                         case "Fitness":
                         case "Til bilmaslik":
+                        case "Boshqa sabablar":
                             userService.generalPerson(update);
                             break;
                         default:
