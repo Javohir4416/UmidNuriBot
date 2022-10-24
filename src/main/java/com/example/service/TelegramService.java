@@ -59,6 +59,10 @@ public class TelegramService {
                             userService.financialProblems(update);
                             break;
 
+                        case "Shaxsiy rivojlanish uchun kurslar":
+                            userService.personalDevelopment(update);
+                            break;
+
                         case "Tashkiliy muammo":
                             userService.otherProblems(update);
                             break;
@@ -67,6 +71,11 @@ public class TelegramService {
                         case "Ish topish":
                         case "Kafedra/dekanat o’qituvchilari bilan tushinmovchiliklar":
                         case "Huquqlar poymol qilinishi":
+                        case "Rus tili":
+                        case "Ingliz tili":
+                        case "SMM":
+                        case "Sport to'garaklari":
+                        case "Fitness":
                         case "Til bilmaslik":
                             userService.generalPerson(update);
                             break;

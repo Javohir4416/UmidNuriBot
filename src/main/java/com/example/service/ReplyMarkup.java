@@ -21,12 +21,15 @@ public class ReplyMarkup {
         if(user.getUserState().equals(UserStateNames.START.name())){
             KeyboardButton row1Button2 = new KeyboardButton();
             KeyboardButton row1Button3 = new KeyboardButton();
+            KeyboardButton row1Button4 = new KeyboardButton();
             row1Button1.setText("Psixologik muammo");
             row1Button2.setText("Moliyaviy muammo");
             row1Button3.setText("Tashkiliy muammo");
+            row1Button4.setText("Shaxsiy rivojlanish uchun kurslar");
             row1.add(row1Button1);
             row1.add(row1Button2);
             row1.add(row1Button3);
+            row1.add(row1Button4);
             rowList.add(row1);
         }
          if (user.getUserState().equals(UserStateNames.PSYCHOLOGY.name())) {
@@ -79,6 +82,34 @@ public class ReplyMarkup {
             row2.add(row2Button1);
             row3.add(row3Button1);
             row4.add(row4Button1);
+            rowList.add(row1);
+            rowList.add(row2);
+            rowList.add(row3);
+            rowList.add(row4);
+        }
+        if (user.getUserState().equals(UserStateNames.PERSONAL_DEVELOPMENT.name())) {
+            KeyboardRow row2 = new KeyboardRow();
+            KeyboardRow row3 = new KeyboardRow();
+            KeyboardRow row4 = new KeyboardRow();
+            KeyboardRow row5 = new KeyboardRow();
+            KeyboardRow row6 = new KeyboardRow();
+            KeyboardButton row2Button1 = new KeyboardButton();
+            KeyboardButton row3Button1 = new KeyboardButton();
+            KeyboardButton row4Button1 = new KeyboardButton();
+            KeyboardButton row5Button1 = new KeyboardButton();
+            KeyboardButton row6Button1 = new KeyboardButton();
+            row1Button1.setText("Rus tili");
+            row2Button1.setText("Ingliz tili");
+            row3Button1.setText("SMM");
+            row4Button1.setText("Sport to'garaklari");
+            row5Button1.setText("Fitness");
+            row6Button1.setText("Bosh Menu");
+            row1.add(row1Button1);
+            row2.add(row2Button1);
+            row3.add(row3Button1);
+            row4.add(row4Button1);
+            row5.add(row5Button1);
+            row6.add(row6Button1);
             rowList.add(row1);
             rowList.add(row2);
             rowList.add(row3);

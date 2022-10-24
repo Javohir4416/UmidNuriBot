@@ -7,5 +7,6 @@ public enum UserStateNames {
      PSYCHOLOGY,
     QUESTION,
     OTHER,
+    PERSONAL_DEVELOPMENT,
      FINANCIAL;
 }

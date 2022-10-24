@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -141,5 +140,15 @@ public class UserService {
             sendMessage.setText("Quyidagi muammolardan qaysi biri sizning vaziyatingizga mos tushadi ?");
             sendMessage.setReplyMarkup(replyMarkup.markup(user));
             telegramFeign.sendMessageToUser(sendMessage);
+    }
+
+    public void personalDevelopment(Update update) {
+        User user = getUserFromUpdate(update);
+        user.setUserState(UserStateNames.PERSONAL_DEVELOPMENT.name());
+        SendMessage sendMessage=new SendMessage();
+        sendMessage.setChatId(user.getChatId());
+        sendMessage.setText("Kategoriyalardan birini tanlang ");
+        sendMessage.setReplyMarkup(replyMarkup.markup(user));
+        telegramFeign.sendMessageToUser(sendMessage);
     }
 }
