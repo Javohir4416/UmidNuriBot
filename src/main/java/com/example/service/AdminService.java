@@ -16,29 +16,38 @@ public class AdminService {
     private final ReplyMarkup replyMarkup;
 
     public void enterPasswordForAdmin(Update update) {
-        User user = userService.getUserFromUpdate(update);
-        SendMessage sendMessage=new SendMessage();
-        sendMessage.setChatId(user.getChatId());
-        sendMessage.setText("Parolni kiriting ");
-        user.setUserState(UserStateNames.ENTER_PASSWORD_FOR_ADMIN.name());
-        telegramFeign.sendMessageToUser(sendMessage);
+        try {
+            User user = userService.getUserFromUpdate(update);
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.setChatId(user.getChatId());
+            sendMessage.setText("Parolni kiriting ");
+            user.setUserState(UserStateNames.ENTER_PASSWORD_FOR_ADMIN.name());
+            telegramFeign.sendMessageToUser(sendMessage);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public void checkPassword(Update update) {
-        String password = update.getMessage().getText();
-        User user = userService.getUserFromUpdate(update);
-        if(password.equals(RestConstants.PASSWORD)) {
-            SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
-            sendMessage.setText("Salom admin ");
-            sendMessage.setReplyMarkup(replyMarkup.markup(user));
-            telegramFeign.sendMessageToUser(sendMessage);
+        try {
+            String password = update.getMessage().getText();
+            User user = userService.getUserFromUpdate(update);
+            if (password.equals(RestConstants.PASSWORD)) {
+                SendMessage sendMessage = new SendMessage();
+                sendMessage.setChatId(user.getChatId());
+                sendMessage.setText("Salom admin ");
+                sendMessage.setReplyMarkup(replyMarkup.markup(user));
+                telegramFeign.sendMessageToUser(sendMessage);
+            } else {
+                SendMessage sendMessage = new SendMessage();
+                sendMessage.setChatId(user.getChatId());
+                sendMessage.setText("Parol xato . Qaytadan kiriting");
+                telegramFeign.sendMessageToUser(sendMessage);
+            }
         }
-        else {
-            SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
-            sendMessage.setText("Parol xato . Qaytadan kiriting");
-            telegramFeign.sendMessageToUser(sendMessage);
+        catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 }
