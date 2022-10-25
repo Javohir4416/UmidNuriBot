@@ -1,15 +1,16 @@
 package com.example.service;
-
-import com.example.constants.RestConstants;
 import com.example.database.Database;
 import com.example.entity.User;
 import com.example.feign.TelegramFeign;
 import com.example.payload.enums.UserStateNames;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.*;
+
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 @Service
@@ -55,7 +56,7 @@ public class UserService {
         telegramFeign.sendMessageToUser(sendMessage);
     }
 
-    public void stats(Update update) {
+    public void stats(Update update){
         User user = getUserFromUpdate(update);
         user.setUserState(UserStateNames.START.name());
         SendMessage sendMessage =new SendMessage();
@@ -264,5 +265,36 @@ public class UserService {
                             "2.Kafedra bilan muammolar soni : "+STATS_FOR_GOVERNMENT+"\n"+
                             "3.Huquuqlar poymol bo'lishi soni : "+STATS_FOR_RIGHTS);
         telegramFeign.sendMessageToUser(sendMessage);
+    }
+
+    public void showReason(Update update) {
+        User user = getUserFromUpdate(update);
+        user.setUserState(UserStateNames.SHOW_REASON.name());
+        SendMessage sendMessage=new SendMessage();
+        sendMessage.setChatId(user.getChatId());
+        sendMessage.setText("Asosni ko'rsating (.pdf yoki .png fromatda) ");
+        telegramFeign.sendMessageToUser(sendMessage);
+    }
+
+    public void getDocument(Update update) {
+        if (update.getMessage().hasDocument()) {
+            Document document = update.getMessage().getDocument();
+            File file=new File(document.getFileId(),document.getFileUniqueId(),document.getFileSize(),document.getFileName());
+            User user = getUserFromUpdate(update);
+            SendMessage sendMessage=new SendMessage();
+            sendMessage.setChatId(user.getChatId());
+            sendMessage.setText(file.getFilePath());
+            telegramFeign.sendMessageToUser(sendMessage);
+            SendDocument sendDocument=new SendDocument();
+            sendDocument.setDocument(new InputFile(document.getFileName()));
+            sendDocument.setChatId(user.getChatId());
+            telegramFeign.sendDocumentToUser(sendDocument);
+
+        }
+        else if(update.getMessage().hasPhoto()){
+            List<PhotoSize> photo = update.getMessage().getPhoto();
+            PhotoSize photoSize=new PhotoSize(photo.get(0).getFileId(),photo.get(0).getFileUniqueId(),photo.get(0).getWidth(),
+                    photo.get(0).getHeight(),photo.get(0).getFileSize(),photo.get(0).getFilePath());
+        }
     }
 }
