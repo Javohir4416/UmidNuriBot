@@ -18,6 +18,8 @@ public class User {
     private String firstName;
     private String lastName;
     private String fileId;
+    private String caption;
+    private boolean photo=false;
 
     public User(String id) {
         this.chatId = id;

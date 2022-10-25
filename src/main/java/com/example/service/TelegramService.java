@@ -108,7 +108,12 @@ public class TelegramService {
 
                         case "Turar joy":
                         case "Kontrakt to’lovi":
-                            userService.showReason(update);
+                            userService.groupAndContact(update);
+                            break;
+
+
+                        case "Turar joy yoki kontarkt to'lovi":
+                            userService.contractOrHome(update);
                             break;
                         case "Rus tili":
                         case "Ingliz tili":
@@ -132,6 +137,9 @@ public class TelegramService {
                             }
                             else if(user.getUserState().equals(UserStateNames.ENTER_PASSWORD_FOR_ADMIN.name())){
                                 adminService.checkPassword(update);
+                            }
+                            else if(user.getUserState().equals(UserStateNames.GROUP_CONTACT.name())){
+                                userService.showReason(update);
                             }
                             else userService.error(update);
                             break;

@@ -1,21 +1,16 @@
 package com.example.service;
-import com.example.constants.RestConstants;
 import com.example.database.Database;
 import com.example.entity.User;
 import com.example.feign.TelegramFeign;
 import com.example.payload.SendDocumentOwn;
+import com.example.payload.SendPhotoOwn;
 import com.example.payload.enums.UserStateNames;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.methods.GetFile;
-import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.*;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -27,6 +22,10 @@ public class UserService {
     Integer STATS_FOR_PSYCHOLOGY=0;
     Integer STATS_FOR_GOVERNMENT=0;
     Integer STATS_FOR_RIGHTS=0;
+
+    private  String text=null;
+
+    private Queue<User> userForContractOrHome=new LinkedList<>();
 
     private final TelegramFeign telegramFeign;
     private final Queue<String> queueForPsychology=new LinkedList<>();
@@ -275,26 +274,64 @@ public class UserService {
     }
 
     public void showReason(Update update) {
+        text = update.getMessage().getText();
         User user = getUserFromUpdate(update);
         user.setUserState(UserStateNames.SHOW_REASON.name());
         SendMessage sendMessage=new SendMessage();
         sendMessage.setChatId(user.getChatId());
-        sendMessage.setText("Asosni ko'rsating (.pdf yoki .png fromatda) ");
+        sendMessage.setText("Asosni ko'rsating (Pdf yoki rasm yuklang)");
         telegramFeign.sendMessageToUser(sendMessage);
     }
 
     public void getFile(Update update) {
+        User user = getUserFromUpdate(update);
+        userForContractOrHome.add(user);
         if(update.getMessage().hasDocument()){
-            User user = getUserFromUpdate(update);
             String fileId = update.getMessage().getDocument().getFileId();
             user.setFileId(fileId);
-            SendDocumentOwn sendDocumentOwn=new SendDocumentOwn();
-            sendDocumentOwn.setChatId(user.getChatId());
-            sendDocumentOwn.setDocument(fileId);
-            telegramFeign.sendDocument(sendDocumentOwn);
+            user.setCaption(text);
+            user.setPhoto(false);
         }
         else if (update.getMessage().hasPhoto()){
+            List<PhotoSize> photo = update.getMessage().getPhoto();
+            String fileId = photo.get(0).getFileId();
+            user.setFileId(fileId);
+            user.setCaption(text);
+            user.setPhoto(true);
+        }
+        SendMessage sendMessage=new SendMessage();
+        sendMessage.setText(user.getChatId());
+        sendMessage.setText("72 soat ichida holatingizni o’rganib chiqqan holda sizga bog’lanamiz ");
+        telegramFeign.sendMessageToUser(sendMessage);
+    }
 
+    public void groupAndContact(Update update) {
+        User user = getUserFromUpdate(update);
+        user.setUserState(UserStateNames.GROUP_CONTACT.name());
+        SendMessage sendMessage=new SendMessage();
+        sendMessage.setChatId(user.getChatId());
+        sendMessage.setText("Ism familiya , guruh va bog’lanish uchun nomer qoldiring");
+        telegramFeign.sendMessageToUser(sendMessage);
+    }
+
+    public void contractOrHome(Update update) {
+        User user = getUserFromUpdate(update);
+        for (int i = 0; i < userForContractOrHome.size(); i++) {
+            User userPhoto = userForContractOrHome.poll();
+            if (userPhoto.isPhoto()) {
+                SendPhotoOwn sendPhotoOwn=new SendPhotoOwn();
+                sendPhotoOwn.setChatId(user.getChatId());
+                sendPhotoOwn.setPhoto(userPhoto.getFileId());
+                sendPhotoOwn.setCaption(userPhoto.getCaption());
+                telegramFeign.sendPhotoToUser(sendPhotoOwn);
+            }
+            else {
+                SendDocumentOwn sendDocumentOwn=new SendDocumentOwn();
+                sendDocumentOwn.setChatId(user.getChatId());
+                sendDocumentOwn.setDocument(userPhoto.getFileId());
+                sendDocumentOwn.setCaption(userPhoto.getCaption());
+                telegramFeign.sendDocument(sendDocumentOwn);
+            }
         }
     }
 }

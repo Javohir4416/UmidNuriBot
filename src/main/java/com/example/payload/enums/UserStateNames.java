@@ -13,5 +13,6 @@ public enum UserStateNames {
     ENTER_PASSWORD_FOR_ADMIN,
     PROBLEM_WITH_RIGHTS,
     SHOW_REASON,
+    GROUP_CONTACT,
      FINANCIAL;
 }
