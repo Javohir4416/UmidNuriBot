@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.constants.RestConstants;
 import com.example.database.Database;
 import com.example.entity.User;
 import com.example.feign.TelegramFeign;
@@ -14,6 +15,10 @@ import java.util.Queue;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
+    Integer STATS_FOR_PSYCHOLOGY=0;
+    Integer STATS_FOR_GOVERNMENT=0;
+    Integer STATS_FOR_RIGHTS=0;
 
     private final TelegramFeign telegramFeign;
     private final Queue<String> queueForPsychology=new LinkedList<>();
@@ -80,6 +85,7 @@ public class UserService {
     }
 
     public void questionsForPsychology(Update update) {
+        STATS_FOR_PSYCHOLOGY++;
         String question = update.getMessage().getText();
         queueForPsychology.add(question);
         User user = getUserFromUpdate(update);
@@ -178,6 +184,7 @@ public class UserService {
     }
 
     public void questionsForGovernment(Update update) {
+        STATS_FOR_GOVERNMENT++;
         String question = update.getMessage().getText();
         queueForGovernment.add(question);
         User user = getUserFromUpdate(update);
@@ -198,6 +205,7 @@ public class UserService {
     }
 
     public void questionsForRights(Update update) {
+        STATS_FOR_RIGHTS++;
         String question = update.getMessage().getText();
         queueForRights.add(question);
         User user = getUserFromUpdate(update);
@@ -246,5 +254,15 @@ public class UserService {
             sendMessage.setText("Qabul qilingan savollar yo'q");
             telegramFeign.sendMessageToUser(sendMessage);
         }
+    }
+
+    public void statics(Update update) {
+        User user = getUserFromUpdate(update);
+        SendMessage sendMessage=new SendMessage();
+        sendMessage.setChatId(user.getChatId());
+        sendMessage.setText("1.Psixologik muammolar soni : "+STATS_FOR_PSYCHOLOGY+"\n" +
+                            "2.Kafedra bilan muammolar soni : "+STATS_FOR_GOVERNMENT+"\n"+
+                            "3.Huquuqlar poymol bo'lishi soni : "+STATS_FOR_RIGHTS);
+        telegramFeign.sendMessageToUser(sendMessage);
     }
 }

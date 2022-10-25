@@ -96,6 +96,10 @@ public class TelegramService {
                             userService.problemWithRights(update);
                             break;
 
+                        case "Statistika":
+                            userService.statics(update);
+                            break;
+
                         case "Turar joy":
                         case "Kontrakt to’lovi":
                         case "Rus tili":
