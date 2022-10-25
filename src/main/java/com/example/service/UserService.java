@@ -300,7 +300,7 @@ public class UserService {
             user.setPhoto(true);
         }
         SendMessage sendMessage=new SendMessage();
-        sendMessage.setText(user.getChatId());
+        sendMessage.setChatId(user.getChatId());
         sendMessage.setText("72 soat ichida holatingizni o’rganib chiqqan holda sizga bog’lanamiz ");
         telegramFeign.sendMessageToUser(sendMessage);
     }
