@@ -33,6 +33,9 @@ public class TelegramService {
         }
             else {
                 String text = update.getMessage().getText();
+                if (update.getMessage().hasDocument()) {
+                    userService.getDocument(update);
+                }
                 if(text!=null) {
                     switch (text) {
                         case "/start":
@@ -126,9 +129,6 @@ public class TelegramService {
                             }
                             else if(user.getUserState().equals(UserStateNames.ENTER_PASSWORD_FOR_ADMIN.name())){
                                 adminService.checkPassword(update);
-                            }
-                            else if(user.getUserState().equals(UserStateNames.SHOW_REASON.name())){
-                                userService.getDocument(update);
                             }
                             else userService.error(update);
                             break;

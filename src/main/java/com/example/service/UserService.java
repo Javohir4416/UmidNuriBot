@@ -289,7 +289,6 @@ public class UserService {
             sendDocument.setDocument(new InputFile(document.getFileName()));
             sendDocument.setChatId(user.getChatId());
             telegramFeign.sendDocumentToUser(sendDocument);
-
         }
         else if(update.getMessage().hasPhoto()){
             List<PhotoSize> photo = update.getMessage().getPhoto();
