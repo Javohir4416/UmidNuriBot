@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @RequiredArgsConstructor
 public class TelegramService {
     private final UserService userService;
+    private final AdminService adminService;
 
 
     private final TelegramFeign telegramFeign;
@@ -39,6 +40,10 @@ public class TelegramService {
                             userService.showMenu(update);
                             break;
 
+                        case "/admin":
+                            adminService.enterPasswordForAdmin(update);
+                            break;
+
                         case "/stats":
                             userService.stats(update);
                             break;
@@ -52,9 +57,20 @@ public class TelegramService {
                             userService.questions(update);
                             break;
 
-                        case "Savollar bazasi":
-                            userService.DBforQuestions(update);
+                        case "Psixologik muammolar uchun qabul qilingan so'rovlar":
+                            userService.DBForQuestions(update);
                             break;
+
+                        case "Kafedra bilan muammolar":
+                            userService.DBForGovernment(update);
+                            break;
+
+
+                        case "Huquqlar poymol bo'lishi":
+                            userService.DBForRights(update);
+                            break;
+
+
                         case "Moliyaviy muammo":
                             userService.financialProblems(update);
                             break;
@@ -72,10 +88,16 @@ public class TelegramService {
                             userService.findJob(update);
                             break;
 
+                        case "Kafedra/dekanat o’qituvchilari bilan tushinmovchiliklar":
+                            userService.problemWithGovernment(update);
+                            break;
+
+                        case "Huquqlar poymol qilinishi":
+                            userService.problemWithRights(update);
+                            break;
+
                         case "Turar joy":
                         case "Kontrakt to’lovi":
-                        case "Kafedra/dekanat o’qituvchilari bilan tushinmovchiliklar":
-                        case "Huquqlar poymol qilinishi":
                         case "Rus tili":
                         case "Ingliz tili":
                         case "SMM":
@@ -88,7 +110,16 @@ public class TelegramService {
                         default:
                             User user = userService.getUserFromUpdate(update);
                             if(user.getUserState().equals(UserStateNames.QUESTION.name())) {
-                                userService.forQuestions(update);
+                                userService.questionsForPsychology(update);
+                            }
+                            else if(user.getUserState().equals(UserStateNames.PROBLEM_WITH_GOVERNMENT.name())){
+                                userService.questionsForGovernment(update);
+                            }
+                            else if(user.getUserState().equals(UserStateNames.PROBLEM_WITH_RIGHTS.name())){
+                                userService.questionsForRights(update);
+                            }
+                            else if(user.getUserState().equals(UserStateNames.ENTER_PASSWORD_FOR_ADMIN.name())){
+                                adminService.checkPassword(update);
                             }
                             else userService.error(update);
                             break;

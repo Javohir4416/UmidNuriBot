@@ -16,7 +16,10 @@ import java.util.Queue;
 public class UserService {
 
     private final TelegramFeign telegramFeign;
-    private final Queue<String> queue=new LinkedList<>();
+    private final Queue<String> queueForPsychology=new LinkedList<>();
+    private final Queue<String> queueForGovernment=new LinkedList<>();
+
+    private final Queue<String> queueForRights=new LinkedList<>();
     private final ReplyMarkup replyMarkup;
     public  User getOrCreateUser(String chatId) {
         for (User user : Database.users) {
@@ -76,15 +79,15 @@ public class UserService {
         telegramFeign.sendMessageToUser(sendMessage);
     }
 
-    public void forQuestions(Update update) {
+    public void questionsForPsychology(Update update) {
         String question = update.getMessage().getText();
-        queue.add(question);
+        queueForPsychology.add(question);
         User user = getUserFromUpdate(update);
         user.setUserState(UserStateNames.START.name());
         SendMessage sendMessage=new SendMessage();
         sendMessage.setChatId(user.getChatId());
         sendMessage.setText("Savolga javobini 24 soat ichida https://t.me/leadergirls_umidnuri dan topasiz.\n" +
-                "Bizga ishonch bildirganingiz uchun rahmat.\n");
+                "Bizga ishonch bildirganingiz uchun rahmat.Qo’shimcha savollar bo’lsa murojaat uchun @NuriG2\n");
         telegramFeign.sendMessageToUser(sendMessage);
     }
 
@@ -96,21 +99,24 @@ public class UserService {
         telegramFeign.sendMessageToUser(sendMessage);
     }
 
-    public void DBforQuestions(Update update) {
+    public void DBForQuestions(Update update) {
         String questions="";
         User user = getUserFromUpdate(update);
         user.setUserState(UserStateNames.START.name());
         SendMessage sendMessage=new SendMessage();
         sendMessage.setChatId(user.getChatId());
-        int size = queue.size();
-        if(!queue.isEmpty()){
+        int size = queueForPsychology.size();
+        if(!queueForPsychology.isEmpty()){
             for (int i = 0; i < size; i++) {
-                questions+=((i+1)+"."+queue.poll()+"\n");
+                questions+=((i+1)+"."+queueForPsychology.poll()+"\n");
+                sendMessage.setText(questions);
+                telegramFeign.sendMessageToUser(sendMessage);
             }
-            sendMessage.setText(questions);
         }
-        else sendMessage.setText("Qabul qilingan savollar yo'q");
-        telegramFeign.sendMessageToUser(sendMessage);
+        else {
+            sendMessage.setText("Qabul qilingan savollar yo'q");
+            telegramFeign.sendMessageToUser(sendMessage);
+        }
     }
 
     public void financialProblems(Update update) {
@@ -160,5 +166,85 @@ public class UserService {
         sendMessage.setText("Ish topishga nima to’sqinlik qilyapti ");
         sendMessage.setReplyMarkup(replyMarkup.markup(user));
         telegramFeign.sendMessageToUser(sendMessage);
+    }
+
+    public void problemWithGovernment(Update update) {
+        User user = getUserFromUpdate(update);
+        user.setUserState(UserStateNames.PROBLEM_WITH_GOVERNMENT.name());
+        SendMessage sendMessage=new SendMessage();
+        sendMessage.setChatId(user.getChatId());
+        sendMessage.setText("O'qituvchi ism, familiyasi va kafedrasini va tushunmovchilik sababini ko'rsating");
+        telegramFeign.sendMessageToUser(sendMessage);
+    }
+
+    public void questionsForGovernment(Update update) {
+        String question = update.getMessage().getText();
+        queueForGovernment.add(question);
+        User user = getUserFromUpdate(update);
+        user.setUserState(UserStateNames.START.name());
+        SendMessage sendMessage=new SendMessage();
+        sendMessage.setChatId(user.getChatId());
+        sendMessage.setText("So'rov qabul qilindi . Qo’shimcha savollar bo’lsa murojaat uchun @NuriG2");
+        telegramFeign.sendMessageToUser(sendMessage);
+    }
+
+    public void problemWithRights(Update update) {
+        User user = getUserFromUpdate(update);
+        user.setUserState(UserStateNames.PROBLEM_WITH_RIGHTS.name());
+        SendMessage sendMessage=new SendMessage();
+        sendMessage.setChatId(user.getChatId());
+        sendMessage.setText("Kim tomonidan qanday huquqbuzarlik sodir etildi?");
+        telegramFeign.sendMessageToUser(sendMessage);
+    }
+
+    public void questionsForRights(Update update) {
+        String question = update.getMessage().getText();
+        queueForRights.add(question);
+        User user = getUserFromUpdate(update);
+        user.setUserState(UserStateNames.START.name());
+        SendMessage sendMessage=new SendMessage();
+        sendMessage.setChatId(user.getChatId());
+        sendMessage.setText("So'rov qabul qilindi . Qo’shimcha savollar bo’lsa murojaat uchun @NuriG2");
+        telegramFeign.sendMessageToUser(sendMessage);
+    }
+
+    public void DBForGovernment(Update update) {
+        String questions="";
+        User user = getUserFromUpdate(update);
+        user.setUserState(UserStateNames.START.name());
+        SendMessage sendMessage=new SendMessage();
+        sendMessage.setChatId(user.getChatId());
+        int size = queueForGovernment.size();
+        if(!queueForGovernment.isEmpty()){
+            for (int i = 0; i < size; i++) {
+                questions+=((i+1)+"."+queueForGovernment.poll()+"\n");
+                sendMessage.setText(questions);
+                telegramFeign.sendMessageToUser(sendMessage);
+            }
+        }
+        else {
+            sendMessage.setText("Qabul qilingan savollar yo'q");
+            telegramFeign.sendMessageToUser(sendMessage);
+        }
+    }
+
+    public void DBForRights(Update update) {
+        String questions="";
+        User user = getUserFromUpdate(update);
+        user.setUserState(UserStateNames.START.name());
+        SendMessage sendMessage=new SendMessage();
+        sendMessage.setChatId(user.getChatId());
+        int size = queueForRights.size();
+        if(!queueForRights.isEmpty()){
+            for (int i = 0; i < size; i++) {
+                questions+=((i+1)+"."+queueForRights.poll()+"\n");
+                sendMessage.setText(questions);
+                telegramFeign.sendMessageToUser(sendMessage);
+            }
+        }
+        else {
+            sendMessage.setText("Qabul qilingan savollar yo'q");
+            telegramFeign.sendMessageToUser(sendMessage);
+        }
     }
 }

@@ -143,6 +143,36 @@ public class ReplyMarkup {
             rowList.add(row5);
             rowList.add(row6);
         }
+        if (user.getUserState().equals(UserStateNames.ENTER_PASSWORD_FOR_ADMIN.name())) {
+            KeyboardRow row2 = new KeyboardRow();
+            KeyboardRow row3 = new KeyboardRow();
+            KeyboardRow row4 = new KeyboardRow();
+            KeyboardRow row5 = new KeyboardRow();
+            KeyboardRow row6 = new KeyboardRow();
+            KeyboardButton row2Button1 = new KeyboardButton();
+            KeyboardButton row3Button1 = new KeyboardButton();
+            KeyboardButton row4Button1 = new KeyboardButton();
+            KeyboardButton row5Button1 = new KeyboardButton();
+            KeyboardButton row6Button1 = new KeyboardButton();
+            row1Button1.setText("Psixologik muammolar uchun qabul qilingan so'rovlar");
+            row2Button1.setText("Kafedra bilan muammolar");
+            row3Button1.setText("Huquqlar poymol qilinishi");
+            row4Button1.setText("Sport to'garaklari");
+            row5Button1.setText("Fitness");
+            row6Button1.setText("Bosh Menu");
+            row1.add(row1Button1);
+            row2.add(row2Button1);
+            row3.add(row3Button1);
+            row4.add(row4Button1);
+            row5.add(row5Button1);
+            row6.add(row6Button1);
+            rowList.add(row1);
+            rowList.add(row2);
+            rowList.add(row3);
+            rowList.add(row4);
+            rowList.add(row5);
+            rowList.add(row6);
+        }
         markup.setResizeKeyboard(true);
         markup.setKeyboard(rowList);
         return markup;
