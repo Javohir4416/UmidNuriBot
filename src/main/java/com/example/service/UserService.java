@@ -108,7 +108,7 @@ public class UserService {
         int size = queueForPsychology.size();
         if(!queueForPsychology.isEmpty()){
             for (int i = 0; i < size; i++) {
-                questions+=((i+1)+"."+queueForPsychology.poll()+"\n");
+                questions=((i+1)+"."+queueForPsychology.poll()+"\n");
                 sendMessage.setText(questions);
                 telegramFeign.sendMessageToUser(sendMessage);
             }
@@ -217,7 +217,7 @@ public class UserService {
         int size = queueForGovernment.size();
         if(!queueForGovernment.isEmpty()){
             for (int i = 0; i < size; i++) {
-                questions+=((i+1)+"."+queueForGovernment.poll()+"\n");
+                questions=((i+1)+"."+queueForGovernment.poll()+"\n");
                 sendMessage.setText(questions);
                 telegramFeign.sendMessageToUser(sendMessage);
             }
@@ -237,7 +237,7 @@ public class UserService {
         int size = queueForRights.size();
         if(!queueForRights.isEmpty()){
             for (int i = 0; i < size; i++) {
-                questions+=((i+1)+"."+queueForRights.poll()+"\n");
+                questions=((i+1)+"."+queueForRights.poll()+"\n");
                 sendMessage.setText(questions);
                 telegramFeign.sendMessageToUser(sendMessage);
             }
