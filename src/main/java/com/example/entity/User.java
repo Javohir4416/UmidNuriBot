@@ -17,6 +17,7 @@ public class User {
     private String userState;
     private String firstName;
     private String lastName;
+    private String fileId;
 
     public User(String id) {
         this.chatId = id;

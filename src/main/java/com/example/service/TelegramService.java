@@ -31,8 +31,11 @@ public class TelegramService {
                 SendMessage sendMessage = new SendMessage(user.getId().toString(), "Mavjud bo'lmagan buyruq");
                 telegramFeign.sendMessageToUser(sendMessage);
             }
-            else if(update.getMessage().hasDocument()){
-                userService.getDocument(update);
+            else if(update.getMessage().hasDocument()||update.getMessage().hasPhoto()){
+                User user = userService.getUserFromUpdate(update);
+                if(user.getUserState().equals(UserStateNames.SHOW_REASON.name())) {
+                    userService.getFile(update);
+                }
             }
             else {
                 String text = update.getMessage().getText();

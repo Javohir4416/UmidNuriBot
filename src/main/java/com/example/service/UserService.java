@@ -3,6 +3,7 @@ import com.example.constants.RestConstants;
 import com.example.database.Database;
 import com.example.entity.User;
 import com.example.feign.TelegramFeign;
+import com.example.payload.SendDocumentOwn;
 import com.example.payload.enums.UserStateNames;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -282,19 +283,18 @@ public class UserService {
         telegramFeign.sendMessageToUser(sendMessage);
     }
 
-    public void getDocument(Update update) {
-        Document document = update.getMessage().getDocument();
-        String url="https://api.telegram.org/file/bot/"+ RestConstants.BOT_TOKEN+"/"+document.getFileName();
-        try {
-            URL url1=new URL(url);
-            URLConnection urlConnection = url1.openConnection();
-            File file = (File) urlConnection.getContent();
-            SendDocument sendDocument=new SendDocument();
-            sendDocument.setDocument(new InputFile(file.getFilePath()));
-            sendDocument.setChatId(update.getMessage().getChatId());
-            telegramFeign.sendDocumentToUser(sendDocument);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+    public void getFile(Update update) {
+        if(update.getMessage().hasDocument()){
+            User user = getUserFromUpdate(update);
+            String fileId = update.getMessage().getDocument().getFileId();
+            user.setFileId(fileId);
+            SendDocumentOwn sendDocumentOwn=new SendDocumentOwn();
+            sendDocumentOwn.setChatId(user.getChatId());
+            sendDocumentOwn.setDocument(fileId);
+            telegramFeign.sendDocument(sendDocumentOwn);
+        }
+        else if (update.getMessage().hasPhoto()){
+
         }
     }
 }
