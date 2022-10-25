@@ -28,9 +28,12 @@ public class TelegramService {
             }
             else if (update.getMessage().hasLocation()) {
                 User user = userService.getUserFromUpdate(update);
-                SendMessage sendMessage=new SendMessage(user.getId().toString(),"Mavjud bo'lmagan buyruq");
+                SendMessage sendMessage = new SendMessage(user.getId().toString(), "Mavjud bo'lmagan buyruq");
                 telegramFeign.sendMessageToUser(sendMessage);
-        }
+            }
+            else if(update.getMessage().hasDocument()){
+                userService.getDocument(update);
+            }
             else {
                 String text = update.getMessage().getText();
                 if(text!=null) {

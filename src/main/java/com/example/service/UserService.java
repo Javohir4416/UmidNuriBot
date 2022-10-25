@@ -1,14 +1,20 @@
 package com.example.service;
+import com.example.constants.RestConstants;
 import com.example.database.Database;
 import com.example.entity.User;
 import com.example.feign.TelegramFeign;
 import com.example.payload.enums.UserStateNames;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.*;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -277,14 +283,18 @@ public class UserService {
     }
 
     public void getDocument(Update update) {
-        if (update.getMessage().hasDocument()) {
-            Document document = update.getMessage().getDocument();
-            File file=new File(document.getFileId(),document.getFileUniqueId(),document.getFileSize(),document.getFileName());
-        }
-        else if(update.getMessage().hasPhoto()){
-            List<PhotoSize> photo = update.getMessage().getPhoto();
-            PhotoSize photoSize=new PhotoSize(photo.get(0).getFileId(),photo.get(0).getFileUniqueId(),photo.get(0).getWidth(),
-                    photo.get(0).getHeight(),photo.get(0).getFileSize(),photo.get(0).getFilePath());
+        Document document = update.getMessage().getDocument();
+        String url="https://api.telegram.org/file/bot/"+ RestConstants.BOT_TOKEN+"/"+document.getFileName();
+        try {
+            URL url1=new URL(url);
+            URLConnection urlConnection = url1.openConnection();
+            File file = (File) urlConnection.getContent();
+            SendDocument sendDocument=new SendDocument();
+            sendDocument.setDocument(new InputFile(file.getFilePath()));
+            sendDocument.setChatId(update.getMessage().getChatId());
+            telegramFeign.sendDocumentToUser(sendDocument);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 }
