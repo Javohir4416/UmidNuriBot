@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class SendPhotoOwn {
     @JsonProperty(value = "chat_id")
@@ -15,8 +14,6 @@ public class SendPhotoOwn {
     private String caption;
     private String photo;
 
-    @JsonProperty("reply_markup")
-    private ReplyKeyboard replyKeyboard;
 
     public SendPhotoOwn(String chatId, String  photo) {
         this.chatId = chatId;
