@@ -33,9 +33,6 @@ public class TelegramService {
         }
             else {
                 String text = update.getMessage().getText();
-                if (update.getMessage().hasDocument()) {
-                    userService.getDocument(update);
-                }
                 if(text!=null) {
                     switch (text) {
                         case "/start":

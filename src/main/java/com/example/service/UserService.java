@@ -280,15 +280,6 @@ public class UserService {
         if (update.getMessage().hasDocument()) {
             Document document = update.getMessage().getDocument();
             File file=new File(document.getFileId(),document.getFileUniqueId(),document.getFileSize(),document.getFileName());
-            User user = getUserFromUpdate(update);
-            SendMessage sendMessage=new SendMessage();
-            sendMessage.setChatId(user.getChatId());
-            sendMessage.setText(file.getFilePath());
-            telegramFeign.sendMessageToUser(sendMessage);
-            SendDocument sendDocument=new SendDocument();
-            sendDocument.setDocument(new InputFile(document.getFileName()));
-            sendDocument.setChatId(user.getChatId());
-            telegramFeign.sendDocumentToUser(sendDocument);
         }
         else if(update.getMessage().hasPhoto()){
             List<PhotoSize> photo = update.getMessage().getPhoto();
