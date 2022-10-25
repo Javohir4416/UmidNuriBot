@@ -316,6 +316,12 @@ public class UserService {
 
     public void contractOrHome(Update update) {
         User user = getUserFromUpdate(update);
+        if(userForContractOrHome.isEmpty()){
+            SendMessage sendMessage=new SendMessage();
+            sendMessage.setChatId(user.getChatId());
+            sendMessage.setText("Hozircha murojaatlar yo'q");
+            telegramFeign.sendMessageToUser(sendMessage);
+        }
         for (int i = 0; i < userForContractOrHome.size(); i++) {
             User userPhoto = userForContractOrHome.poll();
             if (userPhoto.isPhoto()) {
