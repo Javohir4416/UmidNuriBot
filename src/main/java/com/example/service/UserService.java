@@ -20,6 +20,7 @@ import java.util.Queue;
 public class UserService {
 
     Integer STATS_FOR_PSYCHOLOGY=0;
+    Integer STATS_FOR_WORK_OR_HOME=0;
     Integer STATS_FOR_GOVERNMENT=0;
     Integer STATS_FOR_RIGHTS=0;
 
@@ -269,7 +270,8 @@ public class UserService {
         sendMessage.setChatId(user.getChatId());
         sendMessage.setText("1.Psixologik muammolar soni : "+STATS_FOR_PSYCHOLOGY+"\n" +
                             "2.Kafedra bilan muammolar soni : "+STATS_FOR_GOVERNMENT+"\n"+
-                            "3.Huquuqlar poymol bo'lishi soni : "+STATS_FOR_RIGHTS);
+                            "3.Huquuqlar poymol bo'lishi soni : "+STATS_FOR_RIGHTS+"\n"+
+                            "4.Kontrakt to'lovi yoki turar joy muammosi : "+STATS_FOR_WORK_OR_HOME);
         telegramFeign.sendMessageToUser(sendMessage);
     }
 
@@ -315,6 +317,7 @@ public class UserService {
     }
 
     public void contractOrHome(Update update) {
+        STATS_FOR_WORK_OR_HOME++;
         User user = getUserFromUpdate(update);
         if(userForContractOrHome.isEmpty()){
             SendMessage sendMessage=new SendMessage();

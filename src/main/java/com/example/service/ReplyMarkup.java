@@ -157,8 +157,8 @@ public class ReplyMarkup {
             row1Button1.setText("Psixologik muammolar uchun qabul qilingan so'rovlar");
             row2Button1.setText("Kafedra bilan muammolar");
             row3Button1.setText("Huquqlar poymol bo'lishi");
-            row4Button1.setText("Statistika");
-            row5Button1.setText("Turar joy yoki kontarkt to'lovi");
+            row4Button1.setText("Turar joy yoki kontarkt to'lovi");
+            row5Button1.setText("Statistika");
             row6Button1.setText("Bosh Menu");
             row1.add(row1Button1);
             row2.add(row2Button1);
