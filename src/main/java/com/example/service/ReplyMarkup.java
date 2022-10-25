@@ -156,7 +156,7 @@ public class ReplyMarkup {
             KeyboardButton row6Button1 = new KeyboardButton();
             row1Button1.setText("Psixologik muammolar uchun qabul qilingan so'rovlar");
             row2Button1.setText("Kafedra bilan muammolar");
-            row3Button1.setText("Huquqlar poymol qilinishi");
+            row3Button1.setText("Huquqlar poymol bo'lishi");
             row4Button1.setText("Sport to'garaklari");
             row5Button1.setText("Fitness");
             row6Button1.setText("Bosh Menu");
