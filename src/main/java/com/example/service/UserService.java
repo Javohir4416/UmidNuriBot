@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.*;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -35,7 +33,6 @@ public class UserService {
     private final Queue<String> queueForRights=new LinkedList<>();
     private final ReplyMarkup replyMarkup;
     public  User getOrCreateUser(String chatId) {
-        try {
             for (User user : Database.users) {
                 if (user.getChatId().equals(chatId)) {
                     return user;
@@ -44,12 +41,6 @@ public class UserService {
             User user = new User(chatId, UserStateNames.START.name());
             Database.users.add(user);
             return user;
-        }
-        catch (Exception e){
-            User user = new User(chatId, UserStateNames.START.name());
-            Database.users.add(user);
-            return user;
-        }
     }
     public  User getUserFromUpdate(Update update) {
         try {
