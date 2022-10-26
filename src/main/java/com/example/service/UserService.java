@@ -384,6 +384,7 @@ public class UserService {
     }
 
     public void getFile(Update update) {
+        STATS_FOR_WORK_OR_HOME++;
         try {
             User user = getUserFromUpdate(update);
             userForContractOrHome.add(user);
@@ -423,7 +424,6 @@ public class UserService {
 
     public void contractOrHome(Update update) {
         try {
-            STATS_FOR_WORK_OR_HOME++;
             User user = getUserFromUpdate(update);
             if (userForContractOrHome.isEmpty()) {
                 SendMessage sendMessage = new SendMessage();
