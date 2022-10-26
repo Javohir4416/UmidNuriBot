@@ -26,7 +26,7 @@ public class UserService {
 
     private  String text=null;
 
-    private Queue<User> userForContractOrHome=new LinkedList<>();
+    private final Queue<User> userForContractOrHome=new LinkedList<>();
 
     private final TelegramFeign telegramFeign;
     private final Queue<String> queueForPsychology=new LinkedList<>();
