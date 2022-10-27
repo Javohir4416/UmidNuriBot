@@ -73,7 +73,7 @@ public class UserService {
         User user = getUserFromUpdate(update);
         List<User> userList = userRepo.findAll();
         SendMessage sendMessage =new SendMessage();
-        sendMessage.setChatId(user.getId().toString());
+        sendMessage.setChatId(user.getChatId());
         sendMessage.setText("Bot foydalanuvchilari soni : "+ userList.size());
         try {
             telegramFeign.sendMessageToUser(sendMessage);
