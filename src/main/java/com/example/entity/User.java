@@ -14,10 +14,7 @@ import java.util.UUID;
 @Entity(name = "users")
 public class User {
     @Id
-    @GeneratedValue
     private Long id;
-
-    public String chatId;
     public int  STATS_FOR_PSYCHOLOGY;
     public int  STATS_FOR_WORK_OR_HOME;
     public int  STATS_FOR_GOVERNMENT;
@@ -32,8 +29,8 @@ public class User {
     public String caption;
     public boolean photo=false;
 
-    public User(String chatId, int STATS_FOR_PSYCHOLOGY, int STATS_FOR_WORK_OR_HOME, int STATS_FOR_GOVERNMENT, int STATS_FOR_RIGHTS, String questionForPsychology, String questionForGovernment, String questionForRight,String fileId, String userState) {
-        this.chatId = chatId;
+    public User(Long id, int STATS_FOR_PSYCHOLOGY, int STATS_FOR_WORK_OR_HOME, int STATS_FOR_GOVERNMENT, int STATS_FOR_RIGHTS, String questionForPsychology, String questionForGovernment, String questionForRight,String fileId, String userState) {
+        this.id = id;
         this.STATS_FOR_PSYCHOLOGY = STATS_FOR_PSYCHOLOGY;
         this.STATS_FOR_WORK_OR_HOME = STATS_FOR_WORK_OR_HOME;
         this.STATS_FOR_GOVERNMENT = STATS_FOR_GOVERNMENT;

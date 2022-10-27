@@ -29,7 +29,7 @@ public class UserService {
             Optional<User> optionalUser = userRepo.findById(id);
             User user;
             user = optionalUser.orElseGet(() -> new User(
-                    userFromUpdate.getId().toString(),
+                    userFromUpdate.getId(),
                     1,
                     1,
                     1,
@@ -39,7 +39,7 @@ public class UserService {
                     " ",
                     " ",
                     UserStateNames.START.name()));
-            user=userRepo.save(user);
+            user=userRepo.saveAndFlush(user);
             return user;
         }
         else {
@@ -57,10 +57,10 @@ public class UserService {
         try {
             User user = getUserFromUpdate(update);
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             sendMessage.setText("Qanday muammoyingiz bor ? ");
             user.setUserState(UserStateNames.START.name());
-            user=userRepo.save(user);
+            user=userRepo.saveAndFlush(user);
             sendMessage.setReplyMarkup(replyMarkup.markup(user));
             telegramFeign.sendMessageToUser(sendMessage);
         }
@@ -73,7 +73,7 @@ public class UserService {
         User user = getUserFromUpdate(update);
         List<User> userList = userRepo.findAll();
         SendMessage sendMessage =new SendMessage();
-        sendMessage.setChatId(user.getChatId());
+        sendMessage.setChatId(user.getId().toString());
         sendMessage.setText("Bot foydalanuvchilari soni : "+ userList.size());
         try {
             telegramFeign.sendMessageToUser(sendMessage);
@@ -88,9 +88,9 @@ public class UserService {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.PSYCHOLOGY.name());
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             sendMessage.setText("Qay biriga muhtojsiz ? ");
-            user=userRepo.save(user);
+            user=userRepo.saveAndFlush(user);
             sendMessage.setReplyMarkup(replyMarkup.markup(user));
             telegramFeign.sendMessageToUser(sendMessage);
         }catch (Exception e){
@@ -103,10 +103,10 @@ public class UserService {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.QUESTION.name());
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             sendMessage.setText("Savolingizni yozib qoldiring");
             user.setUserState(UserStateNames.QUESTION.name());
-            userRepo.save(user);
+            userRepo.saveAndFlush(user);
             telegramFeign.sendMessageToUser(sendMessage);
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -119,9 +119,9 @@ public class UserService {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.START.name());
             user.setQuestionForPsychology(question);
-            userRepo.save(user);
+            userRepo.saveAndFlush(user);
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             sendMessage.setText("Savolga javobini 24 soat ichida https://t.me/leadergirls_umidnuri dan topasiz.\n" +
                     "Bizga ishonch bildirganingiz uchun rahmat.Qo’shimcha savollar bo’lsa murojaat uchun @NuriG2\n");
             telegramFeign.sendMessageToUser(sendMessage);
@@ -134,7 +134,7 @@ public class UserService {
         try {
             User user = getUserFromUpdate(update);
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             sendMessage.setText("Tushunarsiz buyruq");
             telegramFeign.sendMessageToUser(sendMessage);
         }
@@ -149,7 +149,7 @@ public class UserService {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.START.name());
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             int i=0;
             if (!userRepo.findAll().isEmpty()) {
                 for (User user1 : userRepo.findAll()) {
@@ -157,7 +157,7 @@ public class UserService {
                         questions = ((++i) + "." + user1.getQuestionForPsychology() + "\n");
                         sendMessage.setText(questions);
                         user1.setQuestionForPsychology(" ");
-                        userRepo.save(user1);
+                        userRepo.saveAndFlush(user1);
                         telegramFeign.sendMessageToUser(sendMessage);
                     }
                 }
@@ -175,9 +175,9 @@ public class UserService {
         try {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.FINANCIAL.name());
-            user=userRepo.save(user);
+            user=userRepo.saveAndFlush(user);
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             sendMessage.setText("Quyidagi muammolardan qaysi biri sizning vaziyatingizga mos tushadi ?");
             sendMessage.setReplyMarkup(replyMarkup.markup(user));
             telegramFeign.sendMessageToUser(sendMessage);
@@ -190,7 +190,7 @@ public class UserService {
         try {
             User user = getUserFromUpdate(update);
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             sendMessage.setText("Murojaat uchun\n" +
                     "@NuriG2\n");
             telegramFeign.sendMessageToUser(sendMessage);
@@ -203,9 +203,9 @@ public class UserService {
             try {
                 User user = getUserFromUpdate(update);
                 user.setUserState(UserStateNames.OTHER.name());
-                user=userRepo.save(user);
+                user=userRepo.saveAndFlush(user);
                 SendMessage sendMessage = new SendMessage();
-                sendMessage.setChatId(user.getChatId());
+                sendMessage.setChatId(user.getId().toString());
                 sendMessage.setText("Quyidagi muammolardan qaysi biri sizning vaziyatingizga mos tushadi ?");
                 sendMessage.setReplyMarkup(replyMarkup.markup(user));
                 telegramFeign.sendMessageToUser(sendMessage);
@@ -218,9 +218,9 @@ public class UserService {
         try {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.PERSONAL_DEVELOPMENT.name());
-            user=userRepo.save(user);
+            user=userRepo.saveAndFlush(user);
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             sendMessage.setText("Kategoriyalardan birini tanlang ");
             sendMessage.setReplyMarkup(replyMarkup.markup(user));
             telegramFeign.sendMessageToUser(sendMessage);
@@ -234,9 +234,9 @@ public class UserService {
         try {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.FIND_JOB.name());
-            user=userRepo.save(user);
+            user=userRepo.saveAndFlush(user);
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             sendMessage.setText("Ish topishga nima to’sqinlik qilyapti ");
             sendMessage.setReplyMarkup(replyMarkup.markup(user));
             telegramFeign.sendMessageToUser(sendMessage);
@@ -249,10 +249,10 @@ public class UserService {
         try {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.PROBLEM_WITH_GOVERNMENT.name());
-            user=userRepo.save(user);
+            user=userRepo.saveAndFlush(user);
 
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             sendMessage.setText("O'qituvchi ism, familiyasi va kafedrasini va tushunmovchilik sababini ko'rsating");
             telegramFeign.sendMessageToUser(sendMessage);
         }
@@ -268,9 +268,9 @@ public class UserService {
             user.setQuestionForGovernment(question);
             user.setSTATS_FOR_GOVERNMENT(user.getSTATS_FOR_GOVERNMENT()+1);
             user.setUserState(UserStateNames.START.name());
-            userRepo.save(user);
+            userRepo.saveAndFlush(user);
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             sendMessage.setText("So'rov qabul qilindi . Qo’shimcha savollar bo’lsa murojaat uchun @NuriG2");
             telegramFeign.sendMessageToUser(sendMessage);
         }
@@ -283,9 +283,9 @@ public class UserService {
         try {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.PROBLEM_WITH_RIGHTS.name());
-            userRepo.save(user);
+            userRepo.saveAndFlush(user);
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             sendMessage.setText("Kim tomonidan qanday huquqbuzarlik sodir etildi?");
             telegramFeign.sendMessageToUser(sendMessage);
         }
@@ -301,9 +301,9 @@ public class UserService {
             user.setQuestionForRight(question);
             user.setUserState(UserStateNames.START.name());
             user.setSTATS_FOR_RIGHTS(user.getSTATS_FOR_RIGHTS()+1);
-            userRepo.save(user);
+            userRepo.saveAndFlush(user);
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             sendMessage.setText("So'rov qabul qilindi . Qo’shimcha savollar bo’lsa murojaat uchun @NuriG2");
             telegramFeign.sendMessageToUser(sendMessage);
         }catch (Exception e){
@@ -317,7 +317,7 @@ public class UserService {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.START.name());
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             int i=0;
             if (!userRepo.findAll().isEmpty()) {
                 for (User user1 : userRepo.findAll()) {
@@ -325,7 +325,7 @@ public class UserService {
                         questions = ((++i) + "." + user1.getQuestionForGovernment() + "\n");
                         sendMessage.setText(questions);
                         user1.setQuestionForGovernment(" ");
-                        userRepo.save(user1);
+                        userRepo.saveAndFlush(user1);
                         telegramFeign.sendMessageToUser(sendMessage);
                     }
                 }
@@ -345,7 +345,7 @@ public class UserService {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.START.name());
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             int i=0;
             if (!userRepo.findAll().isEmpty()) {
                 for (User user1 : userRepo.findAll()) {
@@ -353,7 +353,7 @@ public class UserService {
                         questions = ((++i) + "." + user1.getQuestionForRight() + "\n");
                         sendMessage.setText(questions);
                         user1.setQuestionForRight(" ");
-                        userRepo.save(user1);
+                        userRepo.saveAndFlush(user1);
                         telegramFeign.sendMessageToUser(sendMessage);
                     }
                 }
@@ -371,7 +371,7 @@ public class UserService {
         try {
             User user = getUserFromUpdate(update);
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             List<User> allUsers = userRepo.findAll();
             int psy=0;
             int gov=0;
@@ -400,9 +400,9 @@ public class UserService {
             text = update.getMessage().getText();
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.SHOW_REASON.name());
-            user=userRepo.save(user);
+            user=userRepo.saveAndFlush(user);
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             sendMessage.setText("Asosni ko'rsating (Pdf yoki rasm yuklang)");
             telegramFeign.sendMessageToUser(sendMessage);
         }catch (Exception e){
@@ -427,9 +427,9 @@ public class UserService {
                 user.setCaption(text);
                 user.setPhoto(true);
             }
-            userRepo.save(user);
+            userRepo.saveAndFlush(user);
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             sendMessage.setText("72 soat ichida holatingizni o’rganib chiqqan holda sizga bog’lanamiz ");
             telegramFeign.sendMessageToUser(sendMessage);
         }catch (Exception e){
@@ -441,9 +441,9 @@ public class UserService {
         try {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.GROUP_CONTACT.name());
-            user=userRepo.save(user);
+            user=userRepo.saveAndFlush(user);
             SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
+            sendMessage.setChatId(user.getId().toString());
             sendMessage.setText("Ism familiya , guruh va bog’lanish uchun nomer qoldiring");
             telegramFeign.sendMessageToUser(sendMessage);
         }catch (Exception e){
@@ -460,31 +460,31 @@ public class UserService {
                 for (User user1 : allUser) {
                 if (user1.isPhoto()) {
                     SendPhotoOwn sendPhotoOwn = new SendPhotoOwn();
-                    sendPhotoOwn.setChatId(user.getChatId());
+                    sendPhotoOwn.setChatId(user.getId().toString());
                     sendPhotoOwn.setPhoto(user1.getFileId());
                     sendPhotoOwn.setCaption(user1.getCaption());
                     if(!user1.getFileId().equals(" ")) {
                         telegramFeign.sendPhotoToUser(sendPhotoOwn);
                         i++;
                         user.setFileId(" ");
-                        userRepo.save(user);
+                        userRepo.saveAndFlush(user);
                     }
                 } else {
                     SendDocumentOwn sendDocumentOwn = new SendDocumentOwn();
-                    sendDocumentOwn.setChatId(user.getChatId());
+                    sendDocumentOwn.setChatId(user.getId().toString());
                     sendDocumentOwn.setDocument(user1.getFileId());
                     sendDocumentOwn.setCaption(user1.getCaption());
                     if(!user1.getFileId().equals(" ")) {
                         telegramFeign.sendDocument(sendDocumentOwn);
                         i++;
                         user.setFileId(" ");
-                        userRepo.save(user);
+                        userRepo.saveAndFlush(user);
                     }
                 }
             }
                 if(i==0){
                     SendMessage sendMessage = new SendMessage();
-                    sendMessage.setChatId(user.getChatId());
+                    sendMessage.setChatId(user.getId().toString());
                     sendMessage.setText("Hozircha qabul qilingan murojaatlar yo'q");
                     telegramFeign.sendMessageToUser(sendMessage);
                 }
