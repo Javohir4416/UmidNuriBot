@@ -174,6 +174,7 @@ public class UserService {
         try {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.FINANCIAL.name());
+            user=userRepo.save(user);
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(user.getChatId());
             sendMessage.setText("Quyidagi muammolardan qaysi biri sizning vaziyatingizga mos tushadi ?");
@@ -201,6 +202,7 @@ public class UserService {
             try {
                 User user = getUserFromUpdate(update);
                 user.setUserState(UserStateNames.OTHER.name());
+                user=userRepo.save(user);
                 SendMessage sendMessage = new SendMessage();
                 sendMessage.setChatId(user.getChatId());
                 sendMessage.setText("Quyidagi muammolardan qaysi biri sizning vaziyatingizga mos tushadi ?");
@@ -215,6 +217,7 @@ public class UserService {
         try {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.PERSONAL_DEVELOPMENT.name());
+            user=userRepo.save(user);
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(user.getChatId());
             sendMessage.setText("Kategoriyalardan birini tanlang ");
@@ -230,6 +233,7 @@ public class UserService {
         try {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.FIND_JOB.name());
+            user=userRepo.save(user);
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(user.getChatId());
             sendMessage.setText("Ish topishga nima to’sqinlik qilyapti ");
@@ -244,6 +248,7 @@ public class UserService {
         try {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.PROBLEM_WITH_GOVERNMENT.name());
+            user=userRepo.save(user);
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(user.getChatId());
             sendMessage.setText("O'qituvchi ism, familiyasi va kafedrasini va tushunmovchilik sababini ko'rsating");
@@ -393,6 +398,7 @@ public class UserService {
             text = update.getMessage().getText();
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.SHOW_REASON.name());
+            user=userRepo.save(user);
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(user.getChatId());
             sendMessage.setText("Asosni ko'rsating (Pdf yoki rasm yuklang)");
@@ -433,6 +439,7 @@ public class UserService {
         try {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.GROUP_CONTACT.name());
+            user=userRepo.save(user);
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(user.getChatId());
             sendMessage.setText("Ism familiya , guruh va bog’lanish uchun nomer qoldiring");
