@@ -70,15 +70,16 @@ public class UserService {
     }
 
     public void stats(Update update){
+        User user = getUserFromUpdate(update);
+        List<User> userList = userRepo.findAll();
+        SendMessage sendMessage =new SendMessage();
+        sendMessage.setChatId(user.getId().toString());
+        sendMessage.setText("Bot foydalanuvchilari soni : "+ userList.size());
         try {
-            User user = getUserFromUpdate(update);
-            SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(user.getChatId());
-            sendMessage.setText("Bot foydalanuvchilari soni : " + userRepo.findAll().size());
             telegramFeign.sendMessageToUser(sendMessage);
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            return;
         }
     }
 
