@@ -14,7 +14,6 @@ import java.util.UUID;
 @Entity(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     public String chatId;
