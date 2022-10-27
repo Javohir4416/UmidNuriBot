@@ -30,10 +30,10 @@ public class UserService {
             User user;
             user = optionalUser.orElseGet(() -> new User(
                     userFromUpdate.getId(),
-                    1,
-                    1,
-                    1,
-                    1,
+                    0,
+                    0,
+                    0,
+                    0,
                     " ",
                     " ",
                     " ",
