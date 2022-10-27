@@ -118,6 +118,7 @@ public class UserService {
             String question = update.getMessage().getText();
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.START.name());
+            user.setSTATS_FOR_PSYCHOLOGY(user.getSTATS_FOR_PSYCHOLOGY()+1);
             user.setQuestionForPsychology(question);
             userRepo.saveAndFlush(user);
             SendMessage sendMessage = new SendMessage();
