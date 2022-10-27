@@ -14,6 +14,7 @@ import java.util.UUID;
 @Entity(name = "users")
 public class User {
     @Id
+    @GeneratedValue
     private Long id;
 
     public String chatId;
