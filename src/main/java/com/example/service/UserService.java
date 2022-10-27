@@ -249,6 +249,7 @@ public class UserService {
             User user = getUserFromUpdate(update);
             user.setUserState(UserStateNames.PROBLEM_WITH_GOVERNMENT.name());
             user=userRepo.save(user);
+
             SendMessage sendMessage = new SendMessage();
             sendMessage.setChatId(user.getChatId());
             sendMessage.setText("O'qituvchi ism, familiyasi va kafedrasini va tushunmovchilik sababini ko'rsating");
